@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flare's Daily Habits</title>
+  <style>
+    :root {
+      --bg-main: #f5f8fa;
+      --bg-header: #ffde59;
+      --text-main: #222;
+      --text-muted: #555;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.08) 0 4px 16px;
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--bg-header);
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+
+    header h1 { font-size: 2.25rem; margin-bottom: 0.25rem; }
+    header p { font-size: 1rem; color: var(--text-muted); }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    section {
+      background-color: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+      animation: fadeIn 0.6s ease-in-out both;
+      margin-bottom: 2rem;
+    }
+
+    section h2 { font-size: 1.5rem; margin-bottom: 1rem; text-align: center; }
+
+    ul { list-style: none; padding-left: 0.75rem; }
+
+    li {
+      position: relative;
+      padding-left: 1.75rem;
+      margin-bottom: 0.85rem;
+      font-size: 1.05rem;
+    }
+    li::before { content: "🌟"; position: absolute; left: 0; top: 0; }
+
+    .mantra { font-style: italic; text-align: center; margin-top: 1.5rem; font-size: 1.1rem; color: #333; }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 0.75rem;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      margin-top: 1rem;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: #ffde59;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px);} to { opacity:1; transform:none;} }
+
+    footer { text-align: center; padding: 1rem 0; font-size: 0.9rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <header>
+    <h1>Flare's Daily Habits</h1>
+    <p>Living with kindness, honesty &amp; loyalty</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>What I Do Each Day</h2>
+      <ul>
+        <li>Morning walk in the garden, appreciating nature &amp; flowers.</li>
+        <li>Talk with my family three times a day, sharing love &amp; support.</li>
+        <li>Enjoy a cup of coffee with milk while reflecting on the day.</li>
+        <li>Spend time in prayer &amp; gratitude, staying close to God.</li>
+        <li>Practice kindness—telling people they&#39;re the best whenever I can.</li>
+        <li>Code and learn new things in Java, JavaScript, VB.NET &amp; more.</li>
+        <li>Take a short nap in the afternoon to recharge.</li>
+        <li>Relax with an episode of Daredevil after studies.</li>
+        <li>Savor spicy food because spice is life!</li>
+      </ul>
+      <p class="mantra">"I breathe in peace. I breathe out doubt. I am present, I am loved, I am enough."</p>
+    </section>
+
+    <section>
+      <h2>Thought Tracker</h2>
+      <p class="mantra">If I’m overthinking, I write it down and let it go.</p>
+      <textarea id="thoughtInput" placeholder="What’s on your mind today, Flare?"></textarea>
+      <button onclick="saveThought()">Save Thought</button>
+      <button onclick="viewThought()">View Saved Thought</button>
+      <p id="savedMsg" class="mantra" style="display:none; color: green;">✅ Thought saved locally!</p>
+      <p id="lastThought" class="mantra" style="display:none;"></p>
+    </section>
+  </main>
+
+  <footer>&copy; 2025 Flare. Keep shining!</footer>
+
+  <script>
+    function saveThought() {
+      const thought = document.getElementById('thoughtInput').value.trim();
+      if (thought !== '') {
+        localStorage.setItem('flareThought', thought);
+        document.getElementById('savedMsg').style.display = 'block';
+        document.getElementById('lastThought').style.display = 'none';
+      }
+    }
+
+    function viewThought() {
+      const saved = localStorage.getItem('flareThought');
+      const lastP = document.getElementById('lastThought');
+      if (saved) {
+        lastP.textContent = "💭 Your saved thought: " + saved;
+        lastP.style.display = 'block';
+      } else {
+        lastP.textContent = "(No saved thoughts yet!)";
+        lastP.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
