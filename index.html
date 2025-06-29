@@ -1,2 +1,171 @@
-# smart-daily-note
-give your thoughts  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Daily Note</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    #clock {
+      font-size: 0.95rem;
+      color: gray;
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.4rem;
+      font-weight: bold;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+      background-color: #fff;
+      color: #000;
+    }
+
+    .controls {
+      margin-top: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .download-btn {
+      background-color: #0a7cff;
+      color: white;
+    }
+
+    .toggle-mode {
+      background-color: #333;
+      color: white;
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      text-align: center;
+      color: gray;
+    }
+
+    /* Dark mode styles */
+    body.dark {
+      background-color: #121212;
+      color: #eee;
+    }
+
+    body.dark textarea {
+      background-color: #1e1e1e;
+      color: #eee;
+      border-color: #444;
+    }
+
+    body.dark .toggle-mode {
+      background-color: #f5f5f5;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📝 Smart Daily Note</h1>
+    <div id="clock">Loading time...</div>
+  </header>
+
+  <label for="today">💬 How are you today?</label>
+  <textarea id="today" placeholder="Share your mood, thoughts, feelings..."></textarea>
+
+  <label for="next">📌 What’s next for you?</label>
+  <textarea id="next" placeholder="Write your goals, tasks or ideas..."></textarea>
+
+  <div class="controls">
+    <button class="download-btn" onclick="downloadNotes()">📥 Download Notes</button>
+    <button class="toggle-mode" onclick="toggleMode()">🌓 Toggle Dark/Light Mode</button>
+  </div>
+
+  <footer>
+    Notes save automatically • Made with ❤️ for your peace of mind
+  </footer>
+
+  <script>
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toLocaleString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Load saved notes
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("today").value = localStorage.getItem("note_today") || "";
+      document.getElementById("next").value = localStorage.getItem("note_next") || "";
+
+      // Load theme
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark");
+      }
+    });
+
+    // Auto-save
+    document.getElementById("today").addEventListener("input", () => {
+      localStorage.setItem("note_today", document.getElementById("today").value);
+    });
+
+    document.getElementById("next").addEventListener("input", () => {
+      localStorage.setItem("note_next", document.getElementById("next").value);
+    });
+
+    // Download Notes
+    function downloadNotes() {
+      const today = document.getElementById("today").value;
+      const next = document.getElementById("next").value;
+      const content = `How are you today?\n${today}\n\nWhat’s next for you?\n${next}`;
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "my-daily-note.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Dark/Light Mode Toggle
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
+  </script>
+</body>
+</html>
+
